@@ -1,0 +1,64 @@
+<div class="ui-g">
+    <p-toast></p-toast>
+    <p-confirmDialog header="Confirmación" acceptLabel="Si" rejectLabel="No" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <p-panel header="Administración de empleados" [style]="{width: '70%', margin: '0 auto'}">
+        <div style="margin-bottom: 20px">
+            <p-menubar [model]="items"></p-menubar>
+        </div>
+        <p-table [value]="empleados" [columns]="cols" [responsive]="true" selectionMode="single" [(selection)]="selectedEmpleado"
+            dataKey="id" [paginator]="true" [rows]="15">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-empleado let-columns="columns">
+                <tr [pSelectableRow]="empleado">
+                    <td *ngFor="let col of columns">
+                        {{empleado[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-panel>
+    <p-dialog header="empleado" [responsive]="true" [style]="{width: '400px'}" [(visible)]="displaySaveDialog"
+        [modal]="true">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="id">Numero Identificacion</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="id" [(ngModel)]="empleado.id" />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="nombre_completo">Nombre Completo</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="nombre_completo" [(ngModel)]="empleado.nombre_completo" />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="funciones">Funciones</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="funciones" [(ngModel)]="empleado.funciones" />
+                </div>
+            </div>
+        </div>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix" *ngIf="validar == true">
+                <button type="button" pButton icon="pi pi-check" (click)="find()" label="Validar"></button>
+            </div>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix" *ngIf="guardar == true">
+                <button type="button" pButton icon="pi pi-check" (click)="save()" label="Guardar"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+</div>
